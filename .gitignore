@@ -1,0 +1,122 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+
+# Python: bytecode, builds, packaging
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+*.dylib
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+.eggs/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.pyenv/
+
+# Testing / coverage / caches
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+.ipython/
+profile_default/
+
+# Type checkers / linters
+.mypy_cache/
+.pyre/
+.pytype/
+.pyright/
+ruff_cache/
+
+# Logs / temp files
+*.log
+*.out
+*.err
+*.tmp
+*.temp
+*.bak
+*.orig
+*~
+.#*
+*.swp
+*.swo
+*.swn
+*.swx
+
+# Env files / secrets
+.env
+*.env
+.env.*
+!.env.example
+
+# ML / data artifacts (keep placeholders/READMEs)
+data/
+dataset/
+datasets/
+inputs/
+!inputs/.gitkeep
+!inputs/README.md
+outputs/
+!outputs/.gitkeep
+!outputs/README.md
+results/
+logs/
+checkpoints/
+models/
+runs/
+lightning_logs/
+wandb/
+mlruns/
+mlartifacts/
+tensorboard/
+tb_logs/
+events.out.tfevents*
+ray_results/
+optuna/
+optuna.db
+
+# Model/weight files (uncomment if you want to version small ones)
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.h5
+*.pb
+*.tflite
+*.safetensors
+
+# DVC and caches
+.dvc/
+.dvc/cache/
+.dvc/tmp/
+.cache/
+.huggingface/
+huggingface/
+transformers_cache/
+torch_home/
+torch_cache/
+keras_cache/
