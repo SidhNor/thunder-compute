@@ -15,5 +15,5 @@ if ! rclone listremotes 2>/dev/null | grep -q '^r2:'; then
 fi
 
 echo "Saving workflows ${COMFY_DIR}/workflows -> r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}"
-rclone sync "${COMFY_DIR}/workflows" "r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}" --progress --fast-list
+rclone sync "${COMFY_DIR}/user/defaultworkflows" "r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}" --progress --fast-list
 echo "Done."

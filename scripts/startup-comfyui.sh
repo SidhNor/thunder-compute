@@ -13,8 +13,6 @@ R2_MODELS_BUCKET="${R2_MODELS_BUCKET:-gg-models-thunder}"
 COMFY_DIR="${COMFY_DIR:-/home/ubuntu/ComfyUI}"
 PYTHON_BIN="${PYTHON_BIN:-python}"
 
-command -v start-comfyui >/dev/null 2>&1 || { echo "start-comfyui not found in PATH."; exit 1; }
-
 # Ensure rclone exists
 if ! command -v rclone >/dev/null 2>&1; then
   echo "Installing rclone..."
@@ -56,9 +54,10 @@ $PYTHON_BIN -m pip install -r "${COMFY_DIR}/requirements.txt"
 echo "Syncing models r2:${R2_MODELS_BUCKET}/models -> ${COMFY_DIR}/models"
 mkdir -p "${COMFY_DIR}/models"
 rclone sync "r2:${R2_MODELS_BUCKET}/models" "${COMFY_DIR}/models" \
-    --progress --transfers=4  --multi-thread-streams 64  \
-    --multi-thread-cutoff 250M --transfers 4 \
-    --buffer-size 512M --s3-disable-checksum
+    --progress --transfers=2 --multi-thread-streams 128 \
+    --multi-thread-cutoff 200M --buffer-size 1G \
+    --s3-disable-checksum --fast-list \
+    --s3-chunk-size 128M --s3-upload-concurrency 32
 
 
 R2_WORKFLOWS_BUCKET="${R2_WORKFLOWS_BUCKET:-$R2_MODELS_BUCKET}"
@@ -68,7 +67,7 @@ R2_WORKFLOWS_PREFIX="${R2_WORKFLOWS_PREFIX:-workflows}"
 mkdir -p "${COMFY_DIR}/workflows"
 if rclone lsf "r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}" >/dev/null 2>&1; then
   echo "Syncing workflows r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX} -> ${COMFY_DIR}/workflows"
-  rclone sync "r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}" "${COMFY_DIR}/workflows" --progress --fast-list
+  rclone sync "r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX}" "${COMFY_DIR}/user/default/workflows" --progress --fast-list
 else
   echo "No workflows found at r2:${R2_WORKFLOWS_BUCKET}/${R2_WORKFLOWS_PREFIX} (skipping)"
 fi

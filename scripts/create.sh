@@ -3,7 +3,7 @@ set -euo pipefail
 # Usage: ./scripts/1. create-and-connect.sh [gpu] [storage_gb] [vcpus]
 
 GPU=${1:-t4}
-STORAGE=${2:-100}
+STORAGE=${2:-150}
 VCPUS=${3:-8}
 
 echo "Creating Thunder instance..."
