@@ -75,10 +75,4 @@ fi
 # Start ComfyUI using Thunder's launcher
 echo "Starting ComfyUI..."
 cd "${COMFY_DIR}"
-if command -v tmux >/dev/null 2>&1; then
-  tmux has-session -t comfyui 2>/dev/null && tmux kill-session -t comfyui
-  tmux new -d -s comfyui "start-comfyui"
-  echo "Logs: tmux attach -t comfyui   (Ctrl+b d to detach)"
-else
-  exec start-comfyui
-fi
+start-comfyui
