@@ -11,7 +11,7 @@ set -euo pipefail
 
 R2_MODELS_BUCKET="${R2_MODELS_BUCKET:-gg-models-thunder}"
 COMFY_DIR="${COMFY_DIR:-/home/ubuntu/ComfyUI}"
-PYTHON_BIN="${PYTHON_BIN:-python}"
+PYTHON_BIN="${PYTHON_BIN:-/home/ubuntu/ComfyUI/.venv/bin/python3}"
 
 # Ensure rclone exists
 if ! command -v rclone >/dev/null 2>&1; then
@@ -49,6 +49,36 @@ fi
 # Install/upgrade Python deps
 echo "Installing Python dependencies..."
 $PYTHON_BIN -m pip install -r "${COMFY_DIR}/requirements.txt"
+$PYTHON_BIN -m pip install -r "${COMFY_DIR}/manager_requirements.txt"
+
+cd "custom_nodes/comfyui-manager"
+git reset --hard
+git pull
+$PYTHON_BIN -m pip install -r requirements.txt
+
+cd "${COMFY_DIR}/custom_nodes"
+git clone https://github.com/rgthree/rgthree-comfy.git
+git clone https://github.com/stduhpf/ComfyUI-WanMoeKSampler.git
+git clone https://github.com/banodoco/steerable-motion
+git clone https://github.com/kijai/ComfyUI-KJNodes.git
+git clone https://github.com/yolain/ComfyUI-Easy-Use.git
+git clone https://github.com/city96/ComfyUI-GGUF.git
+git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
+git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
+git clone https://github.com/willmiao/ComfyUI-Lora-Manager.git
+
+
+$PYTHON_BIN -m pip install -r steerable-motion/requirements.txt
+$PYTHON_BIN -m pip install -r ComfyUI-GGUF/requirements.txt
+$PYTHON_BIN -m pip install -r ComfyUI-Easy-Use/requirements.txt
+$PYTHON_BIN -m pip install -r ComfyUI-VideoHelperSuite/requirements.txt
+$PYTHON_BIN -m pip install -r ComfyUI-Lora-Manager/requirements.txt
+$PYTHON_BIN ComfyUI-Frame-Interpolation/install.py
+
+cd "${COMFY_DIR}"
+
+$PYTHON_BIN -m pip install sageattention --no-build-isolation
+
 
 # Sync models from R2
 echo "Syncing models r2:${R2_MODELS_BUCKET}/models -> ${COMFY_DIR}/models"
@@ -76,3 +106,4 @@ fi
 echo "Starting ComfyUI..."
 cd "${COMFY_DIR}"
 start-comfyui
+
