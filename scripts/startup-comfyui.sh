@@ -55,7 +55,10 @@ $PYTHON_BIN -m pip install -r "${COMFY_DIR}/requirements.txt"
 # Sync models from R2
 echo "Syncing models r2:${R2_MODELS_BUCKET}/models -> ${COMFY_DIR}/models"
 mkdir -p "${COMFY_DIR}/models"
-rclone sync "r2:${R2_MODELS_BUCKET}/models" "${COMFY_DIR}/models" --progress --transfers=16 --checkers=16 --fast-list
+rclone sync "r2:${R2_MODELS_BUCKET}/models" "${COMFY_DIR}/models" \
+    --progress --transfers=4  --multi-thread-streams 64  \
+    --multi-thread-cutoff 250M --transfers 4 \
+    --buffer-size 512M --s3-disable-checksum
 
 
 R2_WORKFLOWS_BUCKET="${R2_WORKFLOWS_BUCKET:-$R2_MODELS_BUCKET}"
